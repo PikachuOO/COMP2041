@@ -1,0 +1,39 @@
+Gryffindor|1998|Ron Weasley            |1763938|M
+Hufflepuff|1998|Hannah Abbott          |1865791|F
+Ravenclaw |1998|Padma Patil            |2212628|F
+Slytherin |1995|Miles Bletchley        |2842601|M
+Gryffindor|1996|Lee Jordan             |1675813|M
+Slytherin |1998|Millicent Bullstrode   |1530866|F
+Gryffindor|1996|Angelina Johnson       |2300997|F
+Hufflepuff|1998|Justin Finch-Fletchley |2364049|M
+Gryffindor|1998|Neville Longbottom     |1122280|M
+Hufflepuff|1998|Ernie Macmillan        |2813803|M
+Gryffindor|2001|Dennis Creevey         |1409196|M
+Slytherin |1998|Draco Malfoy           |2739999|M
+Gryffindor|1999|Colin Creevey          |1788899|M
+Slytherin |1998|Pansy Parkinson        |1139423|F
+Gryffindor|1998|Lavender Brown         |2507106|F
+Slytherin |1996|Adrian Pucey           |1306180|M
+Gryffindor|1997|Katie Bell             |2049760|F
+Ravenclaw |1999|Luna Lovegood          |1487447|F
+Gryffindor|1998|Parvati Patil          |2099930|F
+Hufflepuff|1998|Susan Bones            |2038661|F
+Gryffindor|1999|Ginny Weasley          |2166823|F
+Slytherin |1998|Vincent Crabbe         |2276635|M
+Gryffindor|1998|Hermione Granger       |2015439|F
+Ravenclaw |1997|Marietta Edgecombe     |2718888|F
+Gryffindor|1994|Percy Weasley          |2875195|M
+Gryffindor|1998|Dean Thomas            |2957708|M
+Hufflepuff|1998|Zacharias Smith        |1792336|M
+Gryffindor|2000|Romilda Vane           |1584773|F
+Ravenclaw |1998|Terry Boot             |1492893|M
+Slytherin |1994|Marcus Flint           |2670827|M
+Gryffindor|1998|Seamus Finnigan        |2706540|M
+Slytherin |1998|Gregory Goyle          |2834958|M
+Gryffindor|1996|Fred Weasley           |2532918|M
+Ravenclaw |1997|Cho Chang              |1382894|F
+Gryffindor|1996|George Weasley         |1398543|M
+Ravenclaw |1995|Penelope Clearwater    |2691264|F
+Gryffindor|1998|Harry Potter           |1917525|M
+Hufflepuff|1995|Cedric Diggory         |2667681|M
+Gryffindor|1996|Alicia Spinnet         |2720144|F
