@@ -11,7 +11,7 @@ do
     # annotate image
     convert -gravity south -pointsize 36 -annotate 0 "$date" "$file" "$file"
 
-    # resotre original modification date
-    touch -t"$date" file
+    # restore original modification date
+    touch -t"$date" "$file"
 done
 
