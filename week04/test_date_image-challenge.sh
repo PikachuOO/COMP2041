@@ -1,5 +1,7 @@
 #!/bin/bash
 
+unzip -fo images.zip
+
 for file in *.jpg
 do 
     echo "$file"

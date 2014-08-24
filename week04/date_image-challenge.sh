@@ -6,7 +6,7 @@ do
     [ -e "$file" ] || continue
 
     # get original date
-    date=`date -r new04 +"%Y%m%d%H%M"`
+    date=`date -r "$file" +"%Y%m%d%H%M.%S"`
 
     # annotate image
     convert -gravity south -pointsize 36 -annotate 0 "$date" "$file" "$file"
