@@ -3,15 +3,10 @@
 use warnings;
 use strict;
 
-my $line;
-my $i;
-my @a;
-while ($line = <STDIN>) {
+my ($line, $i, @a);
+
+while ($line = <>) {
     $a[$i++] = $line;
 }
 
-#while ($i-- > 0) {
-#    print $a[$i];
-#}
-
-print $a[max];
+print @a[-5..-1];
