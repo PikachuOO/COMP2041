@@ -10,7 +10,9 @@ while true
 do
     for my $i in {0..1000}
     do
-        ./comm.pl $1 $2 >> commOutput.txt
+        #./comm.pl $1 $2 >> commOutput.txt
+        
+         >> commOutput.txt
     done
     ./histogram.r
 done
