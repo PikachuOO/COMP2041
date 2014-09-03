@@ -3,8 +3,12 @@
 use warnings;
 use strict;
 
-my @buf = <>;
-foreach my $line (@buf) {
-    $line =~ s/\n$/\t/;
-    print $line;
+die "usage: $0 file ...\n" if (!@ARGV);
+foreach my $filename (@ARGV) {
+    open (my $F, "<", $filename) or die "$0: $filename: $!\n";
+    foreach (my @lines = <$F>) {
+        tr{\n}{\t};
+        print;
+    }
+    tr{\t}{\n};
 }
