@@ -3,8 +3,8 @@
 echo "Running `whereis paste` -s $@"
 paste -s $@ > /tmp/output1
 
-echo "Running ./paste.pl $@"
-./paste.pl $@ > /tmp/output2
+echo "Running ./paste2.pl $@"
+./paste2.pl $@ > /tmp/output2
 
 echo "Running diff on the output"
 if diff /tmp/output[12] 
