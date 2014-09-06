@@ -6,9 +6,12 @@ use strict;
 die "usage: $0 file ...\n" if (!@ARGV);
 foreach my $filename (@ARGV) {
     open (my $F, "<", $filename) or die "$0: $filename: $!\n";
-    foreach (my @lines = <$F>) {
-        tr{\n}{\t};
-        print;
+    my @lines = <$F>;
+    while (@lines) {
+        my $line = shift @lines;
+        chomp $line;
+        print $line;
+        print "\t" if (@lines+0 > 0);
     }
     print "\n";
 }
