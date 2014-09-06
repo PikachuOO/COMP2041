@@ -9,7 +9,4 @@ my $urlU = "http://www.handbook.unsw.edu.au/undergraduate/courses/2014/$1.html";
 my $urlP = "http://www.handbook.unsw.edu.au/postgraduate/courses/2014/$1.html";
 my $string = `wget -q -O- $urlU $urlP`;
 
-while ($string =~ s/(?<=Prerequisite:).*?([A-Z]{4}\d{4})// ) {             
-    print $1,"\n";
-}
-
+print uc $1, "\n" while ($string =~ s/(?<=equisite).*?(\b[A-Za-z]{4}\d{4}\b)// );
