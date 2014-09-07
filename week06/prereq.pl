@@ -20,5 +20,5 @@ foreach my $career ("undergraduate","postgraduate") {
 }
 
 die "$0: Course not found: $course\n" if (!$found);
-print uc $1,"\n" while ($content =~ s/(?<=equisite)[^<;\.]*?\b([A-Za-z]{4}\d{4})\b//);
+print uc $1,"\n" while ($content =~ s/(?<=equisite)[^<;\.]*?([A-Za-z]{4}\d{4})//);
 exit 0;
