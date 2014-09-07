@@ -3,9 +3,12 @@
 import sys
 import fileinput
 
-#squelch flag if given and set output size
-if (len(sys.argv) != 0 and sys.argv[0] =~ /^-(\d+)$/):
-    num = 1;
-else:
-    for line in fileinput.input():
+lines = []
 
+for line in fileinput.input():
+    lines.append(line)
+
+if len(lines) <= 10:
+    print str(lines)[-10:-1]
+else:
+    print str(lines)
