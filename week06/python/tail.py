@@ -8,6 +8,7 @@ files = dict();
 
 for line in fileinput.input():
     files.setdefault(fileinput.filename(), []).append(line)
+    
 
 for file in files.iterkeys():
     files[file][-1] = files[file][-1].rstrip('\n')
