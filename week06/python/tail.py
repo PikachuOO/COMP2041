@@ -4,11 +4,13 @@ import sys
 import fileinput
 
 lines = []
+files = dict();
 
 for line in fileinput.input():
-    lines.append(line)
+    files.setdefault(fileinput.filename(), []).append(line)
 
-if len(lines) <= 10:
-    print str(lines)[-10:-1]
-else:
-    print str(lines)
+for file in files.iterkeys():
+    if len(files[file]) <= 10:
+        print "".join(files[file])
+    else:
+        print "".join(files[file][-10:])
