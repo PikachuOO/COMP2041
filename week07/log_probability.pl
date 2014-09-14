@@ -5,5 +5,5 @@ for my $file (glob "poets/*.txt") {
     open (F, "<", $file) or die "$0: $file: $!\n";
     $t +=()= /[A-Za-z]+/g and $c +=()= /\b\Q$ARGV[0]\E\b/gi for <F>;
     $s = join("", $file =~ /[A-Z]\w+/g) and $s =~ tr/_/ /;
-    printf "%4d/%6d = %.9f %s\n", $c, $t, $c/$t, $s; 
+    printf "log((%d+1)/%6d) = %8.4f %s\n", $c, $t, log(($c+1)/$t), $s; 
 }
