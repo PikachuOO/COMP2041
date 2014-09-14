@@ -1,12 +1,13 @@
+#!/usr/bin/perl
 
+use warnings;
+use strict;
 
-while (my $line = <>) {
-    $line =~ tr/A-Z/a-z/;
-    foreach my $word ($line =~ /[a-z]+/g) {
-        $count{$word}++;
-    }
+for my $file (glob "poets/*.txt") {
+    my ($c, $t, $s);
+    open (F, "<", $file) or die "ERROR\n";
+    $c +=()= /\b\Q$ARGV[0]\E\b/gi and $t +=()= /\w+/g for <F>;
+    $s = join("", $file =~ /[A-Z]\w+/g);
+    $s =~ tr/_/ /;
+    printf "%4d/%6d = %.9f %s\n", $c, $t, $c/$t, $s; 
 }
-
-my @words = keys($count);
-my @sorted_words = sort({$count{$a} <=> $count{$b}} @words);
-
