@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 for my $file (glob "poets/*.txt") {
-    my ($c, $t, %s);
+    my ($c, $t, $s);
     open (F, "<", $file) or die "$0: $file: $!\n";
     $t +=()= /[A-Za-z]+/g and $c +=()= /\b\Q$ARGV[0]\E\b/gi for <F>;
     $s = join("", $file =~ /[A-Z]\w+/g) and $s =~ tr/_/ /;
