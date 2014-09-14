@@ -11,4 +11,6 @@ while (my $line = <STDIN>) {
     } 
 }
 
-print ((keys %words)+0);
+foreach my $word (keys %words) {
+    printf "%s\t%s\n", $words{$word}, $word;
+}
