@@ -1,2 +1,2 @@
 #!/usr/bin/perl
-$c +=()= /\w+/g for <STDIN>; print $c," words\n"
+$c +=()= /[A-Za-z]+/g for <STDIN>; print $c," words\n"
