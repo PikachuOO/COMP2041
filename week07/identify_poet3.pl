@@ -7,7 +7,7 @@ use strict;
 package PoetLookup;
 
 sub new {
-    my $class = shift
+    my $class = shift;
     my $self = {
         _file   => shift,
         _total  => 0,
@@ -15,7 +15,7 @@ sub new {
     };
 
     my ($logProb, @words);
-    open (my $F, "<", $self->{_file}) or die "$0: $file: $!\n";
+    open (my $F, "<", $self->{_file}) or die "$0: $self->{_file}: $!\n";
 
     for (<$F>) {
         $self->{_total} += @words = /([A-Z]+)/gi;
@@ -27,7 +27,9 @@ sub new {
 
 sub getLogProb {
     my ($self, $word) = @_;
-    return log( ($self->{_freq}{$word}+1)/$total );
+    $word = "mortality";
+    $self->{_freq}{$word} = 0 if not defined $self->{_freq}{$word};
+    return log( ($self->{_freq}{$word}+1)/$self->{_total} );
 }
 
 #--- end package PoetLookup
@@ -35,21 +37,28 @@ sub getLogProb {
 
 package main;
 
+# initialise hash table
 my %poetHash;
-
-for $file (glob "poets/*.txt") {
-    my ($poet);
+for my $file (glob "poets/*.txt") {
+    my $poet;
     open (my $F, "<", $file) or die "$0: $file: $!\n";
     $poet = join("", $file =~ /[A-Z]\w+/g) and $poet =~ tr/_/ /;
-    
     $poetHash{$poet} = new PoetLookup($file);
 }
 
-#TODO up to here!!
+
+# calculate log probability
 for my $inFile (@ARGV) {
+    my %probSum;
     open (my $IF, "<", $inFile) or die "$0: $inFile: $!\n";
-    my @words = $inWord =~ /[A-Z]+/gi;
-    
+    my @words;
+    push @words, $_ =~ /[A-Z]+/gi for <$IF>;
+    for my $word (@words) {
+        $probSum{$_}+=$poetHash{$_}->getLogProb($word) for keys %poetHash;
+    }
 
+    # find highest probability
+    my @a = sort {$probSum{$a} <=> $probSum{$b}} keys(%probSum);
+    print "$inFile most resembles the work of ",$a[-1];
+    printf " log-probability=%8.4f\n", $probSum{$a[-1]};
 }
-
