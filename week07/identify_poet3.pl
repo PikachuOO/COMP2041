@@ -49,16 +49,22 @@ for my $file (glob "poets/*.txt") {
 
 # calculate log probability
 for my $inFile (@ARGV) {
-    my %probSum;
+    my (%probSum, %wordList);
     open (my $IF, "<", $inFile) or die "$0: $inFile: $!\n";
     my @words;
     push @words, $_ =~ /[A-Z]+/gi for <$IF>;
     for my $word (@words) {
-        $probSum{$_}+=$poetHash{$_}->getLogProb($word) for keys %poetHash;
+        $wordList{lc $word}++;
+    }
+    for my $word (keys %wordList) {
+        $probSum{$_}+=$poetHash{$_}->getLogProb(lc $word) for keys %poetHash;
     }
 
     # find highest probability
     my @a = sort {$probSum{$a} <=> $probSum{$b}} keys(%probSum);
+    for my $poet (@a) {
+        print "$inFile: log_probability of $probSum{$poet} for $poet\n";
+    }
     print "$inFile most resembles the work of ",$a[-1];
     printf " log-probability=%8.4f\n", $probSum{$a[-1]};
 }
