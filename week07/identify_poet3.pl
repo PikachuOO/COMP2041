@@ -27,7 +27,6 @@ sub new {
 
 sub getLogProb {
     my ($self, $word) = @_;
-    $word = "mortality";
     $self->{_freq}{$word} = 0 if not defined $self->{_freq}{$word};
     return log( ($self->{_freq}{$word}+1)/$self->{_total} );
 }
@@ -49,22 +48,22 @@ for my $file (glob "poets/*.txt") {
 
 # calculate log probability
 for my $inFile (@ARGV) {
+    next if $inFile eq "-d";
     my (%probSum, %wordList);
     open (my $IF, "<", $inFile) or die "$0: $inFile: $!\n";
     my @words;
     push @words, $_ =~ /[A-Z]+/gi for <$IF>;
     for my $word (@words) {
-        $wordList{lc $word}++;
-    }
-    for my $word (keys %wordList) {
         $probSum{$_}+=$poetHash{$_}->getLogProb(lc $word) for keys %poetHash;
     }
 
     # find highest probability
-    my @a = sort {$probSum{$a} <=> $probSum{$b}} keys(%probSum);
-    for my $poet (@a) {
-        print "$inFile: log_probability of $probSum{$poet} for $poet\n";
-    }
-    print "$inFile most resembles the work of ",$a[-1];
-    printf " log-probability=%8.4f\n", $probSum{$a[-1]};
+    my @a = sort {$probSum{$b} <=> $probSum{$a}} keys(%probSum);
+    if ($ARGV[0] eq "-d") {
+        for my $poet (@a) {
+            printf "$inFile: log_probability of %.1f for $poet\n", $probSum{$poet};
+        }
+}
+    print "$inFile most resembles the work of ",$a[0];
+    printf " (log-probability=%.1f)\n", $probSum{$a[0]};
 }
