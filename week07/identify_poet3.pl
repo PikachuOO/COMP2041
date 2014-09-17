@@ -48,7 +48,8 @@ for my $file (glob "poets/*.txt") {
 
 # calculate log probability
 for my $inFile (@ARGV) {
-    next if $inFile eq "-d";
+    exit 0 if $inFile eq "-b";
+    next if $inFile =~ /^-/;
     my (%probSum, %wordList);
     open (my $IF, "<", $inFile) or die "$0: $inFile: $!\n";
     my @words;
