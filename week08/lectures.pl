@@ -6,5 +6,8 @@ use strict;
 for my $course (@ARGV) {
     my $url = "http://www.timetable.unsw.edu.au/current/$course.html";
     my $webcontent = `wget -q -O- $url`;
-    print "$course: S$1 $3\n" while $webcontent =~ /(?=Lecture).*?T([12])(.*?<td){5}.*?>(.*?)</sg and $3;
+    while ($webcontent =~ /(?=Lecture).*?(T|U)([12])(.*?<td){5}.*?>([MTWFS]\w\w\s.+?)</sg) {
+        print "$course: S$2 $4\n" if $1 eq "T";
+        print "$course: X$2 $4\n" if $1 eq "U";
+    }
 }
