@@ -1,0 +1,38 @@
+  <td class="rowSpacer"></td>
+                                    </tr>
+                                    <tr class="rowLowlight">
+                                       <td class="data"><a href="#S2-2342">Lecture</a></td>
+                                       <td class="data"><a href="#S2-2342">T2</a></td>
+                                       <td class="data"><a href="#S2-2342">2342</a></td>
+                                       <td class="data"><a href="#S2-2342">1UGA</a></td>
+                                       <td class="data"><font color="green">Open</font></td>
+                                       <td class="data">247/257*</td>
+                                       <td class="data">Mon 14:00 - 16:00 (Weeks:1-9,10-12), Wed 17:00 - 18:00 (Weeks:1-9,10-12)</td>
+                                    </tr>
+                                    <tr class="rowHighlight">
+                                       <td class="data"><a href="#S2-9035">Lecture</a></td>
+                                       <td class="data"><a href="#S2-9035">T2</a></td>
+                                       <td class="data"><a href="#S2-9035">9035</a></td>
+                                       <td class="data"><a href="#S2-9035">WEB</a></td>
+                                       <td class="data"><font color="red">Full</font></td>
+                                       <td class="data">103/100</td>
+                                       <td class="data"></td>
+                                    </tr>
+                                    <tr class="rowLowlight">
+                                       <td class="data"><a href="#S2-2351">Tutorial-Laboratory</a></td>
+                                       <td class="data"><a href="#S2-2351">T2</a></td>
+                                       <td class="data"><a href="#S2-2351">2351</a></td>
+                                       <td class="data"><a href="#S2-2351">F12A</a></td>
+                                       <td class="data"><font color="red">Full</font></td>
+                                       <td class="data">18/18*</td>
+                                       <td class="data">Fri 12:00 - 13:00 (Weeks:2-9,10-13), Fri 13:00 - 15:00 (Weeks:2-9,10-13)</td>
+                                    </tr>
+                                    <tr class="rowHighlight">
+                                       <td class="data"><a href="#S2-2352">Tutorial-Laboratory</a></td>
+                                       <td class="data"><a href="#S2-2352">T2</a></td>
+                                       <td class="data"><a href="#S2-2352">2352</a></td>
+                                       <td class="data"><a href="#S2-2352">F12B</a></td>
+                                       <td class="data"><font color="green">Open</font></td>
+                                       <td class="data">17/18*</td>
+                                       <td class="data">Fri 12:00 - 13:00 (Weeks:2-9,10-13), Fri 13:00 - 15:00 (Weeks:2-9,10-13)</td>
+                                    </tr>
