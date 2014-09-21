@@ -12,9 +12,9 @@ for my $course (@ARGV) {
         $curr = "$course: $1 $3\n";
         my $sem = $1;
         if (defined $formatFlag and $curr ne $last) {
-            my @info = $curr =~ /([MTWFS]\w\w)\s0?([1-9]?\d):\d\d\s-\s0?([1-9]?\d)/g;
+            my @info = $curr =~ /(([MTWFS]\w\w),\s)?([MTWFS]\w\w)\s0?([1-9]?\d):\d\d\s-\s0?([1-9]?\d)/g;
             while (@info) {
-                print "$sem $course $info[0] ",$info[1]++,"\n" while ($info[1] < $info[2]);
+                print "$sem $course $info[2] ",$info[3]++,"\n" while ($info[3] < $info[4]);
                 shift @info for (1..3);
             }
         } else {
