@@ -1,0 +1,1059 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY>
+<A name=1></a>TCP/IP Intro<br>
+Time Server<br>
+TCP/IP beyond scope of this course - take COMP[93]331.<br>
+But easier to understand CGI if we can use TCP/IP from Perl<br>
+A simple TCP/IP server which supplies the current time as an<br>
+Easy to establish a TCP/IP connection.<br>
+ASCII string.<br>
+Server running on host williams.cse.unsw.edu.au does this:<br>
+http://www.cse.unsw.edu.au/ cs2041/code/cgi/timeserver.pl<br>
+use IO::Socket;<br>
+use IO::Socket;<br>
+$server = IO::Socket::INET-&gt;new(LocalPort =&gt; 1234,<br>
+$server = IO::Socket::INET-&gt;new(LocalPort =&gt; 4242,<br>
+Listen =&gt; SOMAXCONN) or die;<br>
+Listen =&gt; SOMAXCONN) or die;<br>
+$c = $server-&gt;accept()<br>
+Client running anywhere on internet does this:<br>
+while ($c = $server-&gt;accept()) {<br>
+printf STDERR &quot;[Connection from %s]\n&quot;, $c-&gt;peerhost;<br>
+use IO::Socket;<br>
+print $c scalar localtime,&quot;\n&quot;;<br>
+$host = &quot;williams.cse.unsw.edu.au&quot;;<br>
+close $c;<br>
+$c = IO::Socket::INET-&gt;new(PeerAddr=&gt;$host,<br>
+}<br>
+PeerPort=&gt;1234) or die;<br>
+Then $c effectively a bidirectional file handle.<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Time Client<br>
+Well-known TCP/IP ports<br>
+Simple client which gets the time from the server on host<br>
+$ARGV[0] and prints it.<br>
+To connect via TCP/IP you need to know the port. Particular<br>
+http://www.cse.unsw.edu.au/ cs2041/code/cgi/timeclient.pl<br>
+services often listen to a standard TCP/IP port on the machine<br>
+use IO::Socket;<br>
+they are running. For example:<br>
+<A href="http://www.cse.unsw.edu.au/~cs2041/code/cgi/timeserver.pl">$server_host =</a><br>
+<A href="http://www.cse.unsw.edu.au/~cs2041/code/cgi/timeserver.pl">$ARGV[0] || 'localhost';</a><br>
+21 ftp<br>
+$server_port = 4242;<br>
+22 ssh (Secure shell)<br>
+$c = IO::Socket::INET-&gt;new(PeerAddr =&gt; $server_host,<br>
+PeerPort<br>
+=&gt; $server_port) or die;<br>
+23 telnet<br>
+$time = &lt;$c&gt;;<br>
+25 SMTP (e-mail)<br>
+close $c;<br>
+80 HTTP (Hypertext Transfer Protocol)<br>
+print &quot;Time is $time\n&quot;;<br>
+123 NTP (Network Time Protocol)<br>
+See NTP for how to seriously distribute time across networks.<br>
+443 HTTPS (Hypertext Transfer Protocol over SSL/TLS)<br>
+So a web server normally listens to port 80 on the host is running.<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+<hr>
+<A name=2></a>Uniform Resource Locator (URL)<br>
+Simple Web Client in Perl<br>
+Familiar syntax:<br>
+A very simple web client - doesn't render the HTML, no GUI, no<br>
+... - see HTTP::Request::Common for a more general solution<br>
+scheme://domain:port/path?query_string#fragment_id<br>
+http://www.cse.unsw.edu.au/ cs2041/code/cgi/cgi/webget.pl<br>
+For example:<br>
+use IO::Socket;<br>
+foreach $url (@ARGV) {<br>
+http://en.wikipedia.org/wiki/URI_scheme#Generic_syntax<br>
+$url =~ /http:\/\/([^\/]+)(:(\d+))?(.*)/ or die;<br>
+http://www.google.com.au/search?q=COMP2041&amp;hl=en&amp;num=100<br>
+$c = IO::Socket::INET-&gt;new(PeerAddr =&gt; $1,<br>
+PeerPort =&gt; $2 || 80) or die;<br>
+Given a http URL a web browser extracts the hostname from the<br>
+# send request for web page to server<br>
+URL and connects to port 80 (unless another port is specified).<br>
+print $c &quot;GET $4 HTTP/1.0\n\n&quot;;<br>
+It then sends the remainder of the URL to the server.<br>
+# read what the server returns<br>
+The HTTP syntax of such a request is simple:<br>
+my @webpage = &lt;$c&gt;;<br>
+close $c;<br>
+GET path HTTP/version<br>
+print &quot;GET $url =&gt;\n&quot;, @webpage, &quot;\n&quot;;<br>
+}<br>
+We can do this easily in Perl<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Simple Web Client in Perl<br>
+Web server in Perl - getting started<br>
+This Perl web server just prints details of incoming requests &amp;<br>
+% cd /home/cs2041/public_html/lec/cgi/examples<br>
+always returns the same response.<br>
+% ./webget.pl http://www.cse.unsw.edu.au/<br>
+http://www.cse.unsw.edu.au/ cs2041/code/cgi/webserver-<br>
+<A href="http://www.cse.unsw.edu.au/~cs2041/code/cgi/webserver-debug.pl">GET http://www.cse.unsw.edu.au/ =&gt;</a><br>
+debug.pl<br>
+<A href="http://www.cse.unsw.edu.au/~cs2041/code/cgi/cgi/webget.pl">HTTP/1.1 200 OK</a><br>
+Date: Sun, 21 Sep 2014 23:40:41 GMT<br>
+use IO::Socket;<br>
+Set-Cookie: JSESSIONID=CF09BE9CADA20036D93F39B04329DB31<br>
+$server = IO::Socket::INET-&gt;new(LocalPort =&gt; 2041,<br>
+Last-Modified: Sun, 21 Sep 2014 23:40:41 GMT<br>
+ReuseAddr =&gt; 1, Listen =&gt; SOMAXCONN) or die;<br>
+Content-Type: text/html;charset=UTF-8<br>
+while ($c = $server-&gt;accept()) {<br>
+Content-Length: 35811<br>
+printf &quot;HTTP request from %s =&gt;\n\n&quot;, $c-&gt;peerhost;<br>
+Connection: close<br>
+while ($request_line = &lt;$c&gt;) {<br>
+print &quot;$request_line&quot;;<br>
+&lt;!DOCTYPE html&gt;<br>
+last if $request_line !~ /\S/;<br>
+&lt;html lang='en'&gt;<br>
+}<br>
+&lt;head&gt;<br>
+print $c &quot;HTTP/1.0 200 OK\n&quot;;<br>
+...<br>
+print $c &quot;Content-Type: text/plain\n\n&quot;;<br>
+print $c &quot;Everything is OK\n&quot;;<br>
+Notice the web server returns some header lines and then data.<br>
+close $c;<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+}<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+<hr>
+<A name=3></a>Web server in Perl - too simple<br>
+Web server in Perl - mime-types<br>
+A simple web server in Perl.<br>
+http://www.cse.unsw.edu.au/ cs2041/code/cgi/webserver-too-<br>
+Web servers typically determine a file's type from its extension<br>
+simple.pl<br>
+(suffix) and pass this back in a header line.<br>
+while ($c = $server-&gt;accept()) {<br>
+ON Unix-like systems file /etc/mime-types contains lines mapping<br>
+my $request = &lt;$c&gt;;<br>
+extensions to mime-types, e.g.:<br>
+print &quot;Connection from &quot;, $c-&gt;peerhost, &quot;: $request&quot;;<br>
+print $c &quot;HTTP/1.0 200 OK\n&quot;;<br>
+application/pdf<br>
+pdf<br>
+print $c &quot;Content-Type: text/html\n\n&quot;;<br>
+image/jpeg<br>
+jpeg jpg jpe<br>
+$request =~ /^GET (.+) HTTP\/1.[01]\s*$/;<br>
+text/html<br>
+html htm shtml<br>
+if (open F, &quot;&lt;/home/cs2041/public_html/$1&quot;) {<br>
+May also be configured within web-server e.g cs2041's .htaccess<br>
+print $c &lt;F&gt;;<br>
+file contains:<br>
+}<br>
+close $c;<br>
+AddType text/plain pl py sh c cgi<br>
+}<br>
+Does fundamental job of serving web pages but has bugs, securtity<br>
+holes and huge limitations.<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Web server in Perl - mime-types<br>
+Web server in Perl - mime-types<br>
+Previous simple web server with code added to use the mime_type<br>
+hash to return the appropriate Content-type:<br>
+http://www.cse.unsw.edu.au/ cs2041/code/cgi/webserver-mime-<br>
+<A href="http://www.cse.unsw.edu.au/~cs2041/code/cgi/webserver-too-simple.pl">Easy </a><A href="http://www.cse.unsw.edu.au/~cs2041/code/cgi/webserver-mime-types.pl">to read /etc/mimetypes specifications into a hash:</a><br>
+types.pl<br>
+$url =~ s/(^|\/)\.\.(\/|$)//g;<br>
+if (open MT, &quot;/etc/mime.types&quot;) {<br>
+my $file = &quot;/home/cs2041/public_html/$url&quot;;<br>
+while ($line = &lt;MT&gt;) {<br>
+# prevent access outside 2041 directory<br>
+$line =~ s/#.*//;<br>
+$file =~ s/(^|\/)..(\/|$)//g;<br>
+my ($type, @extensions) = split /\s+/, $line;;<br>
+$file .= &quot;/index.html&quot; if -d $file;<br>
+$mime_type{$_} = $type foreach @extensions;<br>
+if (open my $f, '&lt;', $file) {<br>
+}<br>
+my ($extension) = $file =~ /\.(\w+)$/;<br>
+}<br>
+print $c &quot;HTTP/1.0 200 OK\n&quot;;<br>
+if ($extension &amp;&amp; $mime_type{$extension}) {<br>
+print $c &quot;Content-Type: $mime_type{$extension}\n&quot;;<br>
+}<br>
+print $c &lt;my $f&gt;;<br>
+}<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+<hr>
+<A name=4></a>Previous web server scripts serve only one request at a time.<br>
+Web server in Perl - multi-processing<br>
+Can not handle a high volume of requests.<br>
+A slow client can deny access for others to the web server, e.g our<br>
+We can add this easily to our previous webserver:<br>
+previous web client with a 1 hour sleep added:<br>
+http://www.cse.unsw.edu.au/ cs2041/code/cgi/webserver-<br>
+http://www.cse.unsw.edu.au/ cs2041/code/cgi/webget-slow.pl<br>
+parallel.pl<br>
+while ($c = $server-&gt;accept()) {<br>
+$url =~ /http:\/\/([^\/]+)(:(\d+))?(.*)/ or die;<br>
+if (fork() != 0) {<br>
+$c = IO::Socket::INET-&gt;new(PeerAddr =&gt; $1,<br>
+# parent process goes to waiting for next request<br>
+PeerPort =&gt; $2 || 80) or die;<br>
+close($c);<br>
+sleep 3600;<br>
+next;<br>
+print $c &quot;GET $4 HTTP/1.0\n\n&quot;;<br>
+}<br>
+# child processes request<br>
+Simple solution is to process each request in a separate process.<br>
+my $request = &lt;$c&gt;;<br>
+The Perl subroutine fork duplicates a running program.<br>
+...<br>
+Returns 0 in new process (child) and process id of child in original<br>
+close $c;<br>
+process (parent).<br>
+# child must terminate here otherwise<br>
+# it would compete with parent for requests<br>
+exit 0;<br>
+}<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Web servers allow dynamic content to be generated via CGI ( other<br>
+Web server - Simple CGI<br>
+ways).<br>
+Typically they can be configure to execute programs for certain<br>
+URIS.<br>
+We can add this to our simple web-server:<br>
+<A href="http://www.cse.unsw.edu.au/~cs2041/code/cgi/webserver-parallel.pl">for example cs2041's .htaccess file indicates files with suffix .cgi</a><br>
+http://www.cse.unsw.edu.au/ cs2041/cgi/webserver-simple-cgi.pl<br>
+<A href="http://www.cse.unsw.edu.au/~cs2041/code/cgi/webget-slow.pl">should be executed.</a><br>
+if ($url =~ /^(.*\.cgi)(\?(.*))?$/) {<br>
+&lt;Files *.cgi&gt;<br>
+my $cgi_script = &quot;/home/cs2041/public_html/$1&quot;;<br>
+SetHandler application/x-setuid-cgi<br>
+$ENV{SCRIPT_URI} = $1;<br>
+&lt;/Files&gt;<br>
+$ENV{QUERY_STRING} = $3 || '';<br>
+$ENV{REQUEST_METHOD} = &quot;GET&quot;;<br>
+$ENV{REQUEST_URI} = $url;<br>
+print $c &quot;HTTP/1.0 200 OK\n&quot;;<br>
+print $c `$cgi_script` if -x $cgi_script;<br>
+close F;<br>
+}<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+<hr>
+<A name=5></a>Web server - CGI<br>
+Web Documents<br>
+A fuller CGI implementation implementing both GET and POST<br>
+We're (hopefully) all familiar with static web documents.<br>
+requests can be found here:<br>
+content marked up with tags to describe appearance<br>
+http://www.cse.unsw.edu.au/ cs2041/code/cgi/webserver-cgi.pl<br>
+browser reads HTML and builds Document Object Model<br>
+(DOM)<br>
+browser produces a visible rendering of DOM<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Dynamic Web Pages<br>
+Dynamic Web Pages<br>
+HTML tags are static<br>
+(i.e. produce a fixed rendering).<br>
+<A href="http://www.cse.unsw.edu.au/~cs2041/code/cgi/webserver-cgi.pl">"Dynamic" web documents come in two flavours ...</a><br>
+For CGI and SSP, the scripts </span><span class="ft3">(HTML generators) </span><span class="ft1">are invoked<br>
+Web pages generated "on-the-fly" from non-HTML data<br>
+via a URL<br>
+(giving the name and type of application)<br>
+sources:<br>
+passing some data values<br>
+(either in the URL or via stdin)<br>
+SSP<br>
+(program running in web server generates HTML)<br>
+The data values are typically<br>
+CGI<br>
+(program running outside web server generates HTML)<br>
+collected in a fill-in form which invokes the script<br>
+Web pages with interactive content:<br>
+JavaScript<br>
+(browser manipulates document object model)<br>
+passed from page to page (script to script) via GET/POST<br>
+Java Applet<br>
+(JVM in browser executes Java program)<br>
+(other mechanisms for data transmission include cookies and<br>
+Cascading Style Sheets (CSS) gives user fine-grained control of<br>
+server-state)<br>
+appearance.<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+<hr>
+<A name=6></a>CGI </span><span class="ft1">(Common Gateway Interface)<br>
+Perl and CGI<br>
+So how does Perl fit into this scenario?<br>
+CGI scripts typically:<br>
+do lots of complex string manipulation<br>
+write many complex strings (HTML) to output<br>
+Data is passed as name=value pairs<br>
+(all values are strings)</span><span class="ft2">.<br>
+Perl is good at manipulating strings - good for CGI.<br>
+Application outputs (normally) HTML, which server passes to<br>
+Libraries for Perl make CGI processing even easier.<br>
+client.<br>
+CGI.pm is one such library<br>
+(see later for more details)<br>
+For HTML documents, header is<br>
+Content-type:<br>
+text/html<br>
+Header can be any MIME-type (e.g. text/html,<br>
+image/gif, ...)<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+SSP </span><span class="ft1">(Server-side Programming)<br>
+JavaScript </span><span class="ft1">(Client-side DOM Scripting)<br>
+Executing script can modify browser's internal representation of<br>
+document (DOM)<br>
+Data is available via library functions (e.g. param).<br>
+Browser then changes appearance of document on screen.<br>
+Script produces HTML output, which is sent to client (browser).<br>
+This can happen at script load time or in response to events (such<br>
+as onClick, onMouseOver, onKeyPress) after script has loaded.<br>
+Can also access data in form controls </span><span class="ft3">(because they are also<br>
+document elements)</span><span class="ft2">.<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+<hr>
+<A name=7></a>JavaScript </span><span class="ft1">(Client-side DOM Scripting)<br>
+Ajax<br>
+For example, this web page has JavaScript embedded to sum two<br>
+numbers from input fields and store the result in a third field.<br>
+The function is run whenever a character is entered in either field.<br>
+Ajax provides a variation on the above approach:<br>
+http://www.cse.unsw.edu.au/ cs2041/code/cgi/javascript sum -<br>
+"normal" browser-to-server interaction is HTTP request<br>
+two numbers.html<br>
+this causes browser to read response as HTML </span><span class="ft4">(new page)<br>
+&lt;input type=text id=&quot;x&quot; onkeyup=&quot;sum();&quot;&gt; +<br>
+Ajax sends XMLHttpRequests from browser-to-server<br>
+&lt;input type=text id=&quot;y&quot; onkeyup=&quot;sum();&quot;&gt; =<br>
+browser does not refresh, but waits for a response<br>
+&lt;input type=text id=&quot;sum&quot; readonly=&quot;readonly&quot;&gt;<br>
+&lt;script type=&quot;text/javascript&quot;&gt;<br>
+response data </span><span class="ft4">(not HTML) </span><span class="ft2">is read and added into DOM<br>
+function sum() {<br>
+Leads to interaction appearing more like traditional GUI.<br>
+var x = parseInt(document.getElementById('x').value);<br>
+Examples: Gmail, Google calendar, Flickr, ....<br>
+var y = parseInt(document.getElementById('y').value);<br>
+The popular JQuery library which is an easy way to use AJAX.<br>
+document.getElementById('sum').value = num1 + num2;<br>
+}<br>
+&lt;/script&gt;<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Ajax<br>
+Ajax<br>
+E.g. using AJAX to show the result of matching a Perl regex.<br>
+http://www.cse.unsw.edu.au/ cs2041/code/cgi/match.html<br>
+$(document).ready(<br>
+Ajax-style browser/server interaction:<br>
+function() {<br>
+$(&quot;#match&quot;).click(<br>
+function() {<br>
+$.get(<br>
+&quot;match.cgi&quot;,<br>
+{string:$(&quot;#string&quot;).val(), regex:$(&quot;#regex&quot;).val()},<br>
+function(data) {<br>
+$(&quot;#show&quot;).html(data)<br>
+}<br>
+)<br>
+}<br>
+)<br>
+}<br>
+)<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+<hr>
+<A name=8></a>Ajax<br>
+HTML Forms<br>
+A new page is not loaded when the match button is pressed.<br>
+Jquery only updates a field on the page.<br>
+An HTML form combines the notions of<br>
+user input &amp; function<br>
+It fetches by http the results of the match from this CGI script:<br>
+call :<br>
+http://www.cse.unsw.edu.au/ cs2041/code/cgi/match.cgi<br>
+collects data via form control elements<br>
+invokes a URL to process the collected data when submitted<br>
+use CGI qw/:all/;<br>
+Syntax:<br>
+print header;<br>
+if (param('string') =~ param('regex')) {<br>
+&lt;form method=RequestMethod action=URL ...&gt;<br>
+print b('Match succeeded, this substring matched: ')<br>
+any HTML except another form<br>
+print tt(escapeHTML($&amp;));<br>
+mixed with<br>
+} else {<br>
+data collection (form control) elements<br>
+print b('Match failed');<br>
+&lt;/form&gt;<br>
+}<br>
+An HTML document may contain any number of &lt;form&gt;'s.<br>
+Forms can be arbitrarily interleaved with HMTL layout elements<br>
+(e.g. &lt;table&gt;)<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+METHOD Attribute<br>
+URL-encoded Strings<br>
+Data is passed from browser to server as a single string in the form:<br>
+{\it{name}}{\bf{=}}{\it{val}}{\bf{&amp;amp;}}{\it{name}}{\bf{=}}{\it{val}}{\bf{&amp;amp;}}{\it{name}}{\bf{=}}{\it{val}}{\bf{&amp;amp;}}...<br>
+The RequestMethod value indicates how data is passed to action<br>
+with no spaces and where '=' and '&amp;' are treated as special<br>
+<A href="http://www.cse.unsw.edu.au/~cs2041/code/cgi/match.cgi">URL.</a><br>
+characters.<br>
+Two RequestMethods are available: GET and POST<br>
+To achieve this strings are "url-encoded" e.g.<br>
+GET: data attached to URL<br>
+(URL?name 1=val 1&amp;name 2=val 2&amp;...)<br>
+andrewt<br>
+andrewt<br>
+POST: data available to script via standard input<br>
+John Shepherd<br>
+John+Shepherd<br>
+Within a server script all we see is a collection of variables:<br>
+andrewt = /home/andrewt ¡col12¿ %7Eandrewt+%3D+%2Fhome%2Fandrewt<br>
+with the same names as those used in the form elements<br>
+1 + 1 = 2<br>
+1+%2B+1+%3D+2<br>
+initialised with the values collected in the form<br>
+Jack &amp; Jill = Love!<br>
+Jack+%26+Jill+%3D+Love%21<br>
+Data values are decoded before script uses them </span><span class="ft3">(WYSIWYG)</span><span class="ft1">.<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+<hr>
+<A name=9></a>ACTION Attribute<br>
+Other &lt;form&gt; Attributes<br>
+&lt;form ...<br>
+name='FormName' ...<br>
+&gt;<br>
+associates the name FormName with the entire form<br>
+&lt;form ...<br>
+action='URL' ...<br>
+&gt;<br>
+useful for referring to form in JavaScript<br>
+specifies script URL to process form data<br>
+&lt;form ...<br>
+target='WindowName' ...<br>
+&gt;<br>
+When the form is submitted ...<br>
+causes output from executing script to be placed in specified<br>
+invoke the URL specified in action<br>
+window<br>
+pass all form data to it<br>
+useful when dealing with frames<br>
+(see later)<br>
+If no action attribute, re-invoke the current script.<br>
+&lt;form ...<br>
+onSubmit='Script' ...<br>
+&gt;<br>
+specifies actions to be carried out just before sending data to<br>
+script<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Form Controls<br>
+CGI Scripts<br>
+Form controls are the individual data collection elements within a<br>
+form.<br>
+Data can be collected in the following styles:<br>
+text<br>
+single line or region of text<br>
+CGI scripts can be written in most languages.<br>
+password<br>
+single line of text, value is hidden<br>
+The better CGI languages:<br>
+menu<br>
+choose 1 or many from a number of options<br>
+checkbox<br>
+on/off toggle switch<br>
+are good at manipulating character strings<br>
+radio<br>
+choose only 1 from a number of options<br>
+make it easy to produce HTML<br>
+hidden<br>
+data item not displayed to user<br>
+Perl satisfies both of these criteria ok on its own.<br>
+submit<br>
+button, sends collected data to script<br>
+Libraries like CGI.pm make Perl even better for CGI.<br>
+reset<br>
+button, resets all data elements in form<br>
+button<br>
+button, effect needs to be scripted<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+<hr>
+<A name=10></a>CGI at CSE<br>
+CGI at CSE<br>
+On CSE machines, users typically place CGI scripts in:<br>
+/home/{\it{UserName}}/public_html/cgi-bin<br>
+A note on file/directory protections and security ...<br>
+And access them via:<br>
+files under public_html need to be readable<br>
+http://cgi.cse.unsw.edu.au/ Username/cgi-bin/Script<br>
+directories under public_html need to be executable<br>
+Nowadays, you can place CGI scripts<br>
+so that at least the Web server can access them.<br>
+anywhere under your public_html directory<br>
+A special command:<br>
+provided that they have a .cgi or suffix<br>
+priv webonly FileOrDirecctory<br>
+and access them via e.g.<br>
+http://www.cse.unsw.edu.au/ User-<br>
+makes files/dirs readable only to you and the web server.<br>
+Name/path/to/script.cgi<br>
+The CSE web server will automatically forward them to the CGI<br>
+server for execution.<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+CGI and Security<br>
+CGI.pm<br>
+Putting up a CGI scripts means that<br>
+¡defn¿CGI.pm¡/defn¿ is a Perl module to simplify CGI scripts.<br>
+anyone, anywhere can execute your script<br>
+It prrovides functions/methods that make it easy<br>
+they can give it any data they like<br>
+to access parameters and other data for CGI scripts<br>
+If you are not careful how data is used ...<br>
+to produce HTML output from the script<br>
+Always run Perl CGI scripts in "taint" mode<br>
+CGI.pm supports two styles of programming:<br>
+generates an error if tainted data used unsafely<br>
+object-oriented, with CGI objects and methods on those objects<br>
+Tainted data = any CGI parameter<br>
+function-oriented, with function calls and a single implicit CGI object<br>
+Unsafely = in system-type operations (e.g. `...`)<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+<hr>
+<A name=11></a>CGI.pm<br>
+Example CGI.pm<br>
+CGI.pm has a range of methods/functions for:<br>
+producing HTML<br>
+(several flavours, including browser-specific)</span><span class="ft1">,<br>
+Consider a data collection form (SayHello.html):<br>
+building HTML forms<br>
+(overall wrapping, plus all form elements)<br>
+&lt;form name=&quot;Hello&quot; action=&quot;HelloScript.cgi&quot;&gt;<br>
+CGI handling<br>
+(manipulating parameters, managing state)<br>
+Your name: &lt;input name=&quot;UserName&quot; type=&quot;text&quot;&gt;<br>
+HTML and form building methods typically<br>
+&lt;input type=submit value=&quot;Say Hello&quot;&gt;<br>
+accept a collection of string arguments<br>
+&lt;/form&gt;<br>
+return a string that contains a fragment of HTML<br>
+And consider that we type John into the input box.<br>
+A dynamic Web page is produced by<br>
+printing a collection of such HTML fragments<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Example CGI.pm<br>
+Example CGI.pm<br>
+An OO-style script (HelloScript.cgi)<br>
+A function-style script (HelloScript.cgi)<br>
+use CGI;<br>
+use CGI qw/:standard/;<br>
+$cgi = new CGI;<br>
+$name = param(&quot;UserName&quot;);<br>
+$name = $cgi-&gt;param(&quot;UserName&quot;);<br>
+print {\em{header()}}, {\em{start_html()}},<br>
+print $cgi-&gt;{\em{header()}}, $cgi-&gt;{\em{start_html()}},<br>
+{\em{p(&quot;Hello there, $name&quot;)}},<br>
+$cgi-&gt;{\em{p(&quot;Hello there, $name&quot;)}},<br>
+{\em{end_html()}};<br>
+$cgi-&gt;{\em{end_html()}};<br>
+Output of script (sent to browser):<br>
+Output of script (sent to browser):<br>
+{\em{Content-type: text/html}}<br>
+{\em{Content-type: text/html}}<br>
+{\em{&lt;!DOCTYPE HTML PUBLIC &quot;-//IETF//DTD HTML//EN&quot;&gt;<br>
+{\em{&lt;!DOCTYPE HTML PUBLIC &quot;-//IETF//DTD HTML//EN&quot;&gt;<br>
+&lt;HTML&gt;&lt;HEAD&gt;&lt;TITLE&gt;Untitled Document&lt;/TITLE&gt;<br>
+&lt;HTML&gt;&lt;HEAD&gt;&lt;TITLE&gt;Untitled Document&lt;/TITLE&gt;<br>
+&lt;/HEAD&gt;&lt;BODY&gt;}}{\em{&lt;P&gt;Hello there, John&lt;/P&gt;}}{\em{&lt;/BODY&gt;&lt;/HTML&gt;}}<br>
+&lt;/HEAD&gt;&lt;BODY&gt;}}{\em{&lt;P&gt;Hello there, John&lt;/P&gt;}}{\em{&lt;/BODY&gt;&lt;/HTML&gt;}}<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+<hr>
+<A name=12></a>Calling CGI.pm Methods<br>
+Calling CGI.pm Methods<br>
+CGI.pm methods often accept many (optional) parameters.<br>
+Special method-call syntax available throughout CGI.pm:<br>
+CGI.pm doesn't explicitly define methods for all HMTL tags.<br>
+Instead, constructs them on-the-fly using rules about arguments.<br>
+{\it{MethodName}}(-{\it{ArgName{1}}}=&gt;{\it{Value{1}}},<br>
+This allows you to include arbitrary attributes in HTML tags<br>
+-{\it{ArgName{2}}}=&gt;{\it{Value{2}}},<br>
+-{\it{ArgName{3}}}=&gt;{\it{Value{3}}},<br>
+{\it{MethodName}}({-{\it{AttrName}}=&gt;{\it{Value}},...}, {\it{OtherArgs}}, ...);<br>
+...<br>
+If first argument is an associative array, it is converted into tag<br>
+-{\it{ArgName{n}}}=&gt;{\it{Value{n}}},<br>
+attributes.<br>
+);<br>
+Other unnamed string arguments are concatenated<br>
+Example:<br>
+space-separated.<br>
+Methods that behave like this are called ¡defn¿HTML<br>
+print header(-type=&gt;'image/gif',-expires=&gt;'+3d');<br>
+shortcuts¡/defn¿.<br>
+Argument names are case-insensitive; args can be supplied in any order.<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Calling CGI.pm Methods<br>
+Accessing Data Items<br>
+Examples of HTML shortcuts:<br>
+The param method provides access to CGI parameters.<br>
+can get a list of names for all parameters<br>
+h1()<br>
+or<br>
+h1<br>
+&lt;H1&gt;<br>
+can get value for a single named parameter<br>
+h1('some','contents')<br>
+&lt;<br>
+can modify the values of individual parameters<br>
+H1&gt;some contents&lt;/H1&gt;<br>
+Examples:<br>
+h1({-align=&gt;left})<br>
+&lt;H1 ALIGN=&quot;left&quot;&gt;<br>
+h1({-align=&gt;left<br>
+&lt;},'Head')<br>
+H1 ALIGN=&quot;left&quot;&gt;<br>
+# get a list of names of all parameters<br>
+Head&lt;/H1&gt;<br>
+@names = param();<br>
+p()<br>
+or<br>
+p<br>
+&lt;P&gt;<br>
+# get value of parameter &quot;name&quot;<br>
+p('how<br>
+$name = param('name');<br>
+'s',&quot;this&quot;,&quot;now&quot;)<br>
+&lt;P&gt;how's this now&lt;/P&gt;<br>
+# get values of parameter &quot;choices&quot;<br>
+@list = param('choices');<br>
+p({-align=&gt;center<br>
+&lt;P},'Now!')<br>
+ALIGN=&quot;center&quot;&gt;<br>
+# set value of &quot;colour&quot; parameter to 'red&quot;<br>
+Now!&lt;/P&gt;<br>
+param('colour','red');<br>
+param(-name=&gt;'colour', -value='red');<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+<hr>
+<A name=13></a>Accessing Data Items<br>
+Accessing Data Items<br>
+Example (dump a table of CGI params):<br>
+Example (dump CGI params, using shortcuts):<br>
+#!/usr/bin/perl<br>
+#!/usr/bin/perl<br>
+use CGI ':standard';<br>
+use CGI ':standard';<br>
+@params = param();<br>
+@params = param();<br>
+print header, &quot;&lt;html&gt;&lt;body&gt;&quot;;<br>
+print header, start_html;<br>
+foreach $p (@params) {<br>
+foreach $p (@params) {<br>
+$v = param($p);<br>
+$rows .= Tr(td([$p, param($p)]));<br>
+$rows .= &quot;&lt;tr&gt;&lt;td&gt;$p&lt;/td&gt;&lt;td&gt;$v \\&quot;;<br>
+}<br>
+}<br>
+print center(<br>
+print &quot;&lt;center&gt;&lt;table border=1&gt;<br>
+table({-border=&gt;1},<br>
+&lt;tr&gt;&lt;td&gt;Param&lt;/td&gt;&lt;td&gt;Value \\<br>
+Tr(th(['Param','Value'])),<br>
+$rows<br>
+$rows<br>
+&lt;/table&gt;&lt;/center&gt;<br>
+)<br>
+&lt;/body&gt;&lt;/html&gt;<br>
+),<br>
+&quot;;<br>
+end_html;<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Generating Forms<br>
+Generating Forms<br>
+Example (self-invoking form):<br>
+#!/usr/bin/perl<br>
+# CGI script that creates a fill-out form<br>
+CGI.pm has methods to assist in generating forms dynamically:<br>
+# and echoes back its values.<br>
+use CGI qw/:standard/;<br>
+# qw/X/ == 'X'<br>
+print header,<br>
+generates a &lt;form&gt; tag with<br>
+start_html(-bgcolor=&gt;'white','A Simple Example'),<br>
+start_form<br>
+optional params for<br>
+h1(font({-color=&gt;'blue'},'A Simple Example')),<br>
+action,...<br>
+start_form,<br>
+end_form<br>
+generates a &lt;/form&gt; tag<br>
+&quot;What's your name? &quot;,textfield('name'),p,<br>
+&quot;What's the combination?&quot;, p,<br>
+checkbox_group(-name=&gt;'words',<br>
+-values=&gt;['eenie','meenie','minie','moe'],<br>
+Plus methods for each different kind of data collection element<br>
+-defaults=&gt;['eenie','minie']), p,<br>
+&quot;What's your favorite color? &quot;,<br>
+textfield,<br>
+textarea,<br>
+password_field<br>
+popup_menu(-name=&gt;'color',<br>
+-values=&gt;['red','green','blue','yellow']),p,<br>
+popup_menu,<br>
+scrolling_list<br>
+submit,<br>
+end_form,<br>
+checkbox,<br>
+radio_group,<br>
+checkbox_group<br>
+hr;<br>
+submit,<br>
+reset,<br>
+button,<br>
+hidden<br>
+if (param()) {<br>
+print &quot;Your name is &quot;,em(param('name')),p,<br>
+&quot;The keywords are &quot;,em(join(&quot;, &quot;,param('words'))),p,<br>
+&quot;Your favorite color is &quot;,em(param('color')),<br>
+hr;<br>
+}<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+<hr>
+<A name=14></a>CGI Script Structure<br>
+Multi-page (State-based) Scripts<br>
+CGI scripts can interleave computation and output.<br>
+Often, a Web-based transaction goes through several stages.<br>
+Arbitrary interleaving is not generally effective<br>
+Sometimes useful to implement all stages by a single script.<br>
+Such scripts are<br>
+(e.g. produce some output and then encounter an error in middle of<br>
+table)<br>
+structured as a collection of cases, distinguished by a "state"<br>
+Useful structure for (large) scripts:<br>
+variable<br>
+collect and check parameters; handle errors<br>
+each state sets parameter to pass to next invocation of same<br>
+use parameters to compute result data structures<br>
+script<br>
+convert results into HTML string<br>
+new invocation produces a new state (different value of<br>
+"state" variable)<br>
+output entire well-formed HTML string<br>
+Overall effect: a single script produces many different Web pages.<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Multi-page (State-based) Scripts<br>
+Cookies<br>
+Example (state-based script schema):<br>
+Web applications often need to maintain state (variables) between<br>
+execution of their CGI script(s).<br>
+$state = param(&quot;state&quot;);<br>
+We've seen this done with parameters in hidden input fields.<br>
+if ($state eq &quot;&quot;) {<br>
+This is only useful for the one "session".<br>
+do processing for initial state<br>
+Cookies provide more persistant storage.<br>
+set up form to invoke next state<br>
+Cookies are strings sent to web clients (browsers) in the response<br>
+}<br>
+headers.<br>
+elsif ($state == Value1) {<br>
+Clients (browsers) store these strings in a file and send them back<br>
+do processing for state 1<br>
+in the header when they subsequently access the site.<br>
+For example:<br>
+set up form to invoke next state<br>
+}<br>
+% ./webget.pl<br>
+http://www.amazon.com/<br>
+elsif ($state == Value2) {<br>
+HTTP/1.1 200 OK<br>
+do processing for state 2<br>
+Date: Thu, 19 May 2011 00:54:27 GMT<br>
+set up form to invoke next state<br>
+Server: Server<br>
+}<br>
+Set-Cookie: skin=noskin; path=/; domain=.amazon.com; expires=Thu, 19-May-2011 00:54:27 GMT<br>
+elsif ($state == Value3) {<br>
+Set-cookie: session-id-time=208567201l; path=/; domain=.amazon.com; expires=Tue Jan 01 08:00:01 2036 GMT<br>
+do processing for state 3<br>
+Set-cookie: session-id=191-0575084-2685655; path=/; domain=.amazon.com; expires=Tue Jan 01 08:00:01 2036 GMT<br>
+set up form to invoke next state<br>
+....<br>
+}<br>
+...<br>
+Web clients will send the cookie strings back next time it fetches<br>
+pages from Amazon.<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+<hr>
+<A name=15></a>Storing a Hash<br>
+A Web Client with Cookies<br>
+http://www.cse.unsw.edu.au/ cs2041/cgi/webget-cookies.pl<br>
+The Storable module provides an easy way to store a hash, e.g:<br>
+#!/usr/bin/perl -w<br>
+# fetch files via http from the webserver at the specified URL<br>
+http://www.cse.unsw.edu.au/ cs2041/code/cgi/persistent.pl<br>
+# with a simple cookie implementation (no expiry)<br>
+# see HTTP::Request::Common for a more general solution<br>
+# written by andrewt@cse.unsw.edu.au as a COMP2041 example<br>
+use Storable;<br>
+$cookies_db = &quot;./.cookies&quot;;<br>
+#!/usr/bin/perl -w<br>
+%cookies = %{retrieve($cookies_db)} if -r $cookies_db;<br>
+use IO::Socket;<br>
+use Storable;<br>
+foreach (@ARGV) {<br>
+my ($host, $junk, $port, $path) = /http:\/\/([^\/]+)(:(\d+))?(.*)/ or die;<br>
+$c = IO::Socket::INET-&gt;new(PeerAddr =&gt; $host, PeerPort<br>
+=&gt; $port || 80) or die;<br>
+$cache_file = &quot;./.cache&quot;;<br>
+print $c &quot;GET $path HTTP/1.0\n&quot;;<br>
+foreach $domain (keys %cookies) {<br>
+%h = %{retrieve($cache_file)} if -r $cache_file;<br>
+next if $host !~ /$domain$/;<br>
+foreach $cookie_path (keys %{$cookies{$domain}}) {<br>
+next if $path !~ /^$cookie_path/;<br>
+$h{COUNT}++;<br>
+foreach $name (keys %{$cookies{$domain}{$path}}) {<br>
+print $c &quot;Cookie: $name=$cookies{$domain}{$path}{$name}\n&quot;;<br>
+print STDERR &quot;Sent cookie $name=$cookies{$domain}{$path}{$name}\n&quot;;<br>
+print &quot;This script has now been run $h{COUNT} times\n&quot;;<br>
+}<br>
+}<br>
+store(\%h, $cache_file);<br>
+}<br>
+print $c &quot;\n&quot;;<br>
+while (&lt;$c&gt;) {<br>
+last if /^\s*$/;<br>
+next if !/^Set-Cookie:/i;<br>
+% persistent.pl<br>
+my ($name,$value, %v) = /([^=;\s]+)=([^=;\s]+)/g;<br>
+my $domain = $v{'domain'} || $host;<br>
+my $path = $v{'path'} || $path;<br>
+This script has now been run 1 times<br>
+$cookies{$domain}{$path}{$name} = $value;<br>
+print STDERR &quot;Received cookie $domain $path $name=$value\n&quot;;<br>
+}<br>
+% persistent.pl<br>
+my @webpage = &lt;$c&gt;;<br>
+print STDOUT @webpage;<br>
+}<br>
+This script has now been run 2 times<br>
+store(\%cookies, $cookies_db);<br>
+% webget-cookies.pl http://www.amazon.com/<br>
+% persistent.pl<br>
+Received cookie .amazon.com / skin=noskin<br>
+Received cookie .amazon.com / session-id-time=2092797201l<br>
+Received cookie .amazon.com / session-id=192-8901109-6810988<br>
+This script has now been run 3 times<br>
+% webget-cookies.pl http://www.amazon.com/<br>
+Sent cookie skin=noskin<br>
+% persistent.pl<br>
+Sent cookie session-id-time=2092797201l<br>
+Sent cookie session-id=192-8901109-6810988<br>
+Received cookie .amazon.com / skin=noskin<br>
+This script has now been run 4 times<br>
+Received cookie .amazon.com / ubid-main=198-1199999-1186912<br>
+Received cookie .amazon.com / session-id-time=2092797201l<br>
+Received cookie .amazon.com / session-id=192-8901109-6810988<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+CGI Script Setting Cookie Directly<br>
+Using CGI.pm to Set a Cookie<br>
+<A href="http://www.cse.unsw.edu.au/~cs2041/code/cgi/persistent.pl">This crude script puts a cookie in the header directly.</a><br>
+CGI.pm provides more convenient access to cookies.<br>
+And it also crudely retrieves a cookie from the HTTP COOKIE<br>
+http://www.cse.unsw.edu.au/ cs2041/code/cgi/simple -<br>
+<A href="http://www.cse.unsw.edu.au/~cs2041/code/cgi/simple_cookie.cgipm.cgi">environment variable.</a><br>
+cookie.cgipm.cgi<br>
+<A href="http://www.cse.unsw.edu.au/~cs2041/code/cgi/simple_cookie.cgipm.cgi">http://www.cse.unsw.edu.au/ </a>cs2041/code/cgi/simple cookie.cgi<br>
+#!/usr/bin/perl -w<br>
+#!/usr/bin/perl -w<br>
+# Simple CGI script written by andrewt@cse.unsw.edu.au<br>
+# Simple CGI script written by andrewt@cse.unsw.edu.au<br>
+# retrieves value stored for x in cookie if there is one<br>
+# retrieved value stored for x in cookie if there is one<br>
+# increment and set the cookie to this value<br>
+# increment and set the cookie to this value<br>
+use CGI qw/:all/;<br>
+$x = 0;<br>
+use CGI::Cookie;<br>
+$x = $1 + 1 if defined $ENV{HTTP_COOKIE} &amp;&amp; $ENV{HTTP_COOKIE} =~ /\bx=(\d+)/;<br>
+print &quot;Content-type: text/html<br>
+%cookies = fetch CGI::Cookie;<br>
+Set-Cookie: x=$x;<br>
+$x = 0;<br>
+$x = $cookies{'x'}-&gt;value if $cookies{'x'};<br>
+&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;<br>
+$x++;<br>
+x=$x<br>
+print header(-cookie=&gt;&quot;x=$x&quot;), start_html('Cookie Example'), &quot;x=$x&quot;, end_html;<br>
+&lt;/body&gt;&lt;/html&gt;&quot;;<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+<hr>
+<A name=16></a>CGI Security Vulnerability - Input Parameter length<br>
+CGI Security Vulnerability - Absolute Pathname and ..<br>
+CGI script may expect a parameter containing a few bytes, e.g.<br>
+CGI script may use a parameter has a filename.<br>
+user name.<br>
+A malicious user may supply an input containing / or ..<br>
+But a malicious user may supply instead megabytes.<br>
+This will allow read and/or write access to other files on system.<br>
+This may the first step in a buffer overflow or denial of service<br>
+Always santitize of input parameters.<br>
+attack<br>
+Safest to remove all but necessary characters, e.g.:<br>
+Always check/limit length of input parameters.<br>
+$name = param('name');<br>
+$user = param('user');<br>
+$name = s/[^a-z0-9]//g;<br>
+$user = substr $user, 0, 64;<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+CGI Security Vulnerability - Perl's Two Argument Open<br>
+CGI Security Vulnerability - User Input &amp; External<br>
+Programs.<br>
+The 2 argument version of Perl's open treats &gt; and -- as special<br>
+A CGI script may pass user input as arguments to an external<br>
+characters.<br>
+program. External program are often run via a shell, e.g. Perl's<br>
+A malicious user may supply an input containing thgese characters<br>
+system and back quotes.<br>
+This will allow files to be written and arbitrary programs to be run.<br>
+A malicious user may supply input containing shell metacharacters<br>
+Always santitize input parameters.<br>
+such as -- or ;<br>
+Safest to use 3 argument form of open.<br>
+This will allow arbitrary programs to be run.<br>
+Always santitize input parameters.<br>
+Safest to run external programs directly (not via shell).<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+<hr>
+<A name=17></a>CGI Security Vulnerability - SQL Injection<br>
+CGI Security Vulnerability - Cross-site Scripting (XSS)<br>
+A CGI script may incorporate user input into web pages shown to<br>
+A CGI script may incorporate user input in SQL commands.<br>
+other users.<br>
+A malicious user may supply input containing SQL metacharacters<br>
+A malicious user may supply input containing HTML particularly<br>
+such as '<br>
+Javascript.<br>
+This may allow the user to circumvent authentication.<br>
+This Javascript can redirect links, steal information etc.<br>
+Remove or quote SQL metacharacters before using them in queries.<br>
+Remove &lt;, ¿, &amp; characters from input before incorporating in web<br>
+Safest to run query via PREPARE.<br>
+pages.<br>
+In other contexts, e.g. within script tags, other characters unsafe.<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+Further Information ...<br>
+Comprehensive documentation attached to course Web page:<br>
+http://www.cse.unsw.edu.au/~cs2041/doc/perl-5.8.8/CGI.html<br>
+Along with plenty of examples to look at in:<br>
+http://www.cse.unsw.edu.au/~cs2041/manuals/cgi/examples<br>
+Most Perl books have some material on CGI.pm.<br>
+Andrew Taylor<br>
+COMP2041/COMP9041 Software Construction<br>
+<hr>
+</BODY>
+</HTML>
