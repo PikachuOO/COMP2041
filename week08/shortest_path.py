@@ -32,17 +32,14 @@ for line in sys.stdin:
     nodeB = words[1]
     weightAB = words[2]
 
-    # Data Structure: Adjacency List using a Dict of Sets of Tuples
+    # Data Structure: Adjacency List using a Dict of Dicts
     # add connection to node
-    adjSet.setdefault(nodeA, set())
-
-    adjSet[nodeA].add()
-    #TODO add weights
+    adjSet.setdefault(nodeA, dict())
+    adjSet[nodeA][nodeB] = weightAB
 
     # add reverse connection
-    adjSet.setdefault(nodeB, set())
-    adjSet[nodeB].add(nodeA)
-    #TODO add weights
+    adjSet.setdefault(nodeB, dict())
+    adjSet[nodeB][nodeA] = weightAB
 
 
 
