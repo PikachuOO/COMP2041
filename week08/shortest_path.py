@@ -46,6 +46,8 @@ def findDijkstraPath (Graph, source, destination):
         path.insert(0, trace)
         trace = parent[trace]
 
+    path.insert(0, source)
+
     return (path, distance[destination])
 
 
