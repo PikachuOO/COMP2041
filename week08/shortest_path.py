@@ -5,13 +5,7 @@
 
 import sys, fileinput
 
-class Node:
-    def __init__(self, weight):
-        self.weight = weight
-    def getWeight(self):
-        return self.weight
-
-# Dijkstra
+# returns list with shortest path using Dijkstra
 def findDijkstraPath (graph, source, destination):
     #TODO placeholder function needs implementing
     return path
@@ -21,9 +15,8 @@ def findDijkstraPath (graph, source, destination):
 source = sys.argv[1]
 destination = sys.argv[2]
 
-
 # read in edge weights from standard input and populate data structure
-adjSet = dict()
+adjList = dict()
 for line in sys.stdin:
     words = line.split()
 
@@ -33,20 +26,18 @@ for line in sys.stdin:
     weightAB = words[2]
 
     # Data Structure: Adjacency List using a Dict of Dicts
+
     # add connection to node
-    adjSet.setdefault(nodeA, dict())
-    adjSet[nodeA][nodeB] = weightAB
+    adjList.setdefault(nodeA, dict())
+    adjList[nodeA][nodeB] = weightAB
 
     # add reverse connection
-    adjSet.setdefault(nodeB, dict())
-    adjSet[nodeB][nodeA] = weightAB
+    adjList.setdefault(nodeB, dict())
+    adjList[nodeB][nodeA] = weightAB
 
-
-
-print adjSet
-
-
+print adjList
 
 # calculate shortest route and print result
+print findDijkstra(adjList)
 
 
