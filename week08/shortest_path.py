@@ -78,4 +78,4 @@ for line in sys.stdin:
 
 # print result
 pathf = " ".join(path)  # path formatted as string seperated by spaces
-print "Shortest route is length = {}: {}.".format(shortestDist, pathf)
+print "Shortest route is length = {0}: {1}.".format(shortestDist, pathf)
