@@ -3,7 +3,7 @@
 # Program to find shortest path using Dijkstra's Algorithm
 # Callum Howard 2014 - COMP2041
 
-import sys, fileinput
+import sys, fileinput, heapq
 
 # returns list with shortest path using Dijkstra
 def findDijkstraPath (Graph, source, destination):
@@ -13,6 +13,7 @@ def findDijkstraPath (Graph, source, destination):
     distance = dict() # minimum sum distance from source to node
     parent = dict()   # parent from minimum path back to source
     queue = []        # priority queue implemented with heap on list
+    path = []         # final shortest path from source and destion
 
     # initialise
     for node in Graph.keys():
@@ -20,17 +21,17 @@ def findDijkstraPath (Graph, source, destination):
         distance[node] = float("inf")
 
     distance[source] = 0
-    heappush(queue, (0, source))
+    heapq.heappush(queue, (0, source))
 
     # main loop
     while queue:
-        current = heappop(queue)[1]
+        current = heapq.heappop(queue)[1]
         visited[current] = True
 
         for connected in Graph[current].keys():
             if not visited[connected]:
                 totalDist = distance[current] + Graph[current][connected]
-                heappush(queue, (totalDist, connected))
+                heapq.heappush(queue, (totalDist, connected))
 
                 # if a shorter distance is found
                 if totalDist < distance[connected]:
@@ -45,7 +46,7 @@ def findDijkstraPath (Graph, source, destination):
         path.insert(0, trace)
         trace = parent[trace]
 
-    return path
+    return (path, distance[destination])
 
 
 # read in source and destination from arguments
@@ -60,7 +61,7 @@ for line in sys.stdin:
     #--- note no sanity check for standard input
     nodeA = words[0]
     nodeB = words[1]
-    weightAB = words[2]
+    weightAB = int(words[2])
 
     # Data Structure: Adjacency List using a Dict of Dicts
 
@@ -72,9 +73,9 @@ for line in sys.stdin:
     adjList.setdefault(nodeB, dict())
     adjList[nodeB][nodeA] = weightAB
 
-print adjList
+# calculate shortest route
+(path, shortestDist) = findDijkstraPath(adjList, source, destination)
 
-# calculate shortest route and print result
-print findDijkstra(adjList)
-
-
+# print result
+pathf = " ".join(path)  # path formatted as string seperated by spaces
+print "Shortest route is length = {}: {}.".format(shortestDist, pathf)
