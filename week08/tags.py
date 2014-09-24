@@ -7,6 +7,7 @@ if sys.argv[1] == "-f":
     url = sys.argv[2]
 else:
     url = sys.argv[1]
+    freqFlag = False
 
 wget = subprocess.Popen(['wget','-q','-O-',url], stdout=subprocess.PIPE)
 source = wget.communicate()[0].rstrip('\n')
@@ -22,6 +23,6 @@ if freqFlag:
     for tag in sorted(tags.keys()):
         print tag, tags[tag]
 else:
-    for tag in sorted(tags.items(), key=lambda x: x[1])
-    print "hello"
+    for tag in sorted(tags, key=tags.get, reverse=True):
+        print tag, tags[tag]
 
