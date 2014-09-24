@@ -20,9 +20,9 @@ for tag in re.findall("<[\s\/]*(\w+)", source):
     tags[tag] += 1
 
 if freqFlag:
-    for tag in sorted(tags.keys()):
+    for tag in sorted(tags, key=tags.get, reverse=True):
         print tag, tags[tag]
 else:
-    for tag in sorted(tags, key=tags.get, reverse=True):
+    for tag in sorted(tags.keys()):
         print tag, tags[tag]
 
