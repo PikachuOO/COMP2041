@@ -2,7 +2,11 @@
 
 import sys, re, subprocess
 
-url = sys.argv[1];
+if sys.argv[1] == "-f":
+    freqFlag = True
+    url = sys.argv[2]
+else:
+    url = sys.argv[1]
 
 wget = subprocess.Popen(['wget','-q','-O-',url], stdout=subprocess.PIPE)
 source = wget.communicate()[0].rstrip('\n')
@@ -12,7 +16,12 @@ tags = dict()
 for tag in re.findall("<[\s\/]*(\w+)", source):
     tag = tag.lower()
     tags.setdefault(tag, 0)
-    tags[tag] += 1;
+    tags[tag] += 1
 
-for tag in sorted(tags.keys()):
-    print tag, tags[tag]
+if freqFlag:
+    for tag in sorted(tags.keys()):
+        print tag, tags[tag]
+else:
+    for tag in sorted(tags.items(), key=lambda x: x[1])
+    print "hello"
+
