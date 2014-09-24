@@ -6,8 +6,45 @@
 import sys, fileinput
 
 # returns list with shortest path using Dijkstra
-def findDijkstraPath (graph, source, destination):
-    #TODO placeholder function needs implementing
+def findDijkstraPath (Graph, source, destination):
+            
+    # declare
+    visited = dict()  # boolean value for each node
+    distance = dict() # minimum sum distance from source to node
+    parent = dict()   # parent from minimum path back to source
+    queue = []        # priority queue implemented with heap on list
+
+    # initialise
+    for node in Graph.keys():
+        visited[node] = False
+        distance[node] = float("inf")
+
+    distance[source] = 0
+    heappush(queue, (0, source))
+
+    # main loop
+    while queue:
+        current = heappop(queue)[1]
+        visited[current] = True
+
+        for connected in Graph[current].keys():
+            if not visited[connected]:
+                totalDist = distance[current] + Graph[current][connected]
+                heappush(queue, (totalDist, connected))
+
+                # if a shorter distance is found
+                if totalDist < distance[connected]:
+                    # replace it as the new shortest distance
+                    distance[connected] = totalDist
+                    parent[connected] = current
+
+    # trace parent from source to find path
+    trace = destination
+    while trace != source:
+        # push on to path list
+        path.insert(0, trace)
+        trace = parent[trace]
+
     return path
 
 
