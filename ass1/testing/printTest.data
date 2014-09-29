@@ -1,0 +1,10 @@
+print "1Hello World"
+print '2Hello World'
+print ("3Hello World")
+print("4Hello World")
+print ('5Hello World')
+print "6Hello",'World'
+print "7Hello "+"World"
+print "8Hello " + "World"
+print ("9Hello"),("World")
+print ((("10Hello World")))
