@@ -2,6 +2,7 @@
 
 use CGI qw/:all/;
 use CGI::Carp qw(fatalsToBrowser warningsToBrowser);
+use CGI::Pretty;
 
 print header;
 print start_html;
