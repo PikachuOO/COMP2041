@@ -4,7 +4,7 @@ import cgi
 import cgitb  # for debugging
 
 cgitb.enable()
-#cgitb.enable(display=0, logdir="authenticate.py.log")
+cgitb.enable(display=0, logdir="authenticate.py.log")
 
 
 # HTML header

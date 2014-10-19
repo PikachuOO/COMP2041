@@ -5,6 +5,7 @@ use CGI::Carp qw(fatalsToBrowser warningsToBrowser);
 use CGI::Pretty
 
 print header;
+print start_html;
 warningsToBrowser(1);
 
 my ($inUser, $inPass);
