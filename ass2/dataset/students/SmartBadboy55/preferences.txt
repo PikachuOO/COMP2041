@@ -1,4 +1,0 @@
-hair_colours:
-	blonde
-gender:
-	female

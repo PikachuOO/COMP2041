@@ -1,4 +1,0 @@
-gender:
-	female
-hair_colours:
-	brown

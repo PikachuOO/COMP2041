@@ -1,9 +1,0 @@
-hair_colours:
-	brown
-age:
-	min:
-		18
-	max:
-		31
-gender:
-	male

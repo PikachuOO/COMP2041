@@ -1,9 +1,0 @@
-hair_colours:
-	black
-gender:
-	male
-age:
-	min:
-		18
-	max:
-		24
